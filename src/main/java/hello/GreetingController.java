@@ -24,10 +24,11 @@ public class GreetingController {
     List<News> noticias;
 
     @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
+    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new Greeting(counter.incrementAndGet(),
-                            String.format(template, name));
+                String.format(template, name));
     }
+
     @RequestMapping("/estaEslatipa")
     public List<News> newsAll() throws IOException, NoSuchAlgorithmException, JSONException, KeyManagementException {
         ConnectHttps https = new ConnectHttps();
@@ -45,7 +46,7 @@ public class GreetingController {
                 String pubDate = (String) o.get("pubDate");
                 String content = (String) o.get("content");
                 String link = (String) o.get("link");
-                News nueva = new News(description,title,pubDate,content,link);
+                News nueva = new News(description, title, pubDate, content, link);
                 noticias.add(nueva);
             }
             //etiquetas description, title, pubDate, content,link
@@ -63,10 +64,31 @@ public class GreetingController {
         return null;
     }
 
+    @RequestMapping("/allSport")
+    public JSONObject listarAllt() {
+        ConnectHttps https = new ConnectHttps();
+        try {
+            JSONObject jsonObject = https.newsInJson();
+            Object items = jsonObject.get("items");
+            JSONArray d = jsonObject.getJSONArray("items");
+            return jsonObject;
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @RequestMapping("/varOffline")
-    public List<News> varianteOffLine(){
-         noticias = new ArrayList<>();
-        saveNews(new News("El Barca no ficha","11/07/2017","Contenido Contenido Contenido Contenido ContenidoContenido Contenido Contenido "));
+    public List<News> varianteOffLine() {
+        noticias = new ArrayList<>();
+        saveNews(new News("El Barca no ficha", "11/07/2017", "Contenido Contenido Contenido Contenido ContenidoContenido Contenido Contenido "));
         saveNews(new News("Carlos Lopez", "11/07/2017", "Hospital Blue Electrical Parts ltd Electrical Parts ltd Electrical Parts ltd Electrical Parts ltd"));
         saveNews(new News("TITULO 4", "11/07/2017", " Parts ltd Creativa App Creativa App Creativa Parts ltd Creativa App Creativa App Creativa Parts ltd Creativa App Creativa App Creativa Parts ltd Creativa App Creativa App Creativa Parts ltd Creativa App Creativa App Creativa Parts ltd Creativa App Creativa App CreativaParts ltd Creativa App Creativa App CreativaParts ltd Creativa App Creativa App Creativa Parts ltd Creativa App Creativa App Creativa Electrical Parts ltd Creativa App Creativa App Creativa App Creativa App Creativa App Creativa App"));
         saveNews(new News("TITULO 5", "11/07/2017", "Electrical Parts ltd Creativa App Creativa App Creativa App Creativa App Creativa App Creativa App"));
@@ -80,6 +102,7 @@ public class GreetingController {
         return noticias;
 
     }
+
     private void saveNews(News news) {
         noticias.add(news);
     }

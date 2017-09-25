@@ -64,7 +64,7 @@ public class ConnectHttps {
         URL url = new URL("https://api.rss2json.com/v1/api.json?rss_url=" + origin);
         URL urls = new URL(a);
 
-        ProxySelector.setDefault(new ProxySelector() {
+    /*    ProxySelector.setDefault(new ProxySelector() {
 
             @Override
             public List<Proxy> select(URI uri) {
@@ -78,7 +78,7 @@ public class ConnectHttps {
             public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
                 throw new RuntimeException("Proxy connect failed", ioe);
             }
-        });
+        });*/
 
 
         URLConnection con = url.openConnection();

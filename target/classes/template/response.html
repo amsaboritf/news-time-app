@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JEJEJE</title>
+</head>
+<body>
+
+</body>
+<script>
+    (function dime() {
+        var algos;
+        function sd(method, url) {
+            var xhr = new XMLHttpRequest();
+            if ("withCredentials" in xhr) {
+                xhr.open(method, url, true);
+            } else if (typeof XDomainRequest != "undefined") {
+                xhr = new XDomainRequest();
+                xhr.open(method, url);
+            } else {
+                xhr = null;
+            }
+            return xhr;
+        }
+
+        var origin = "http://www.estadiodeportivo.com/elementosInt/rss/5";
+        var xhr = sd("GET", "https://api.rss2json.com/v1/api.json?rss_url=" + origin);
+        if (!xhr) {
+            throw new Error('CORS not supported');
+        } else {
+            xhr.send();
+        }
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var responseText = xhr.responseText;
+                var result = JSON.parse(responseText);
+                algos = result;
+                return result;
+            }
+        }
+
+    })();
+
+</script>
+</html>

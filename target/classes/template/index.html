@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="feed"></div>
+<script type="text/javascript"
+        src="../dist/jquery.min.js"></script>
+<script>
+    (function () {
+        var url = "http://www.cubadebate.cu/feed/";
+        var urlMarca = "http://estaticos.marca.com/rss/futbol/primera-division.xml";
+        var urltest = "http://jmacuna73.blogspot.com/feeds/posts/default";
+        var otra = "http://resultados.as.com/resultados/futbol/primera/clasificacion/?omnil=mod_resul";
+        var otra1 = "http://www.90min.com/es/posts.rss";
+        var marca = "http://estaticos.marca.com/rss/portada.xml";
+        var origin = "http://www.estadiodeportivo.com/elementosInt/rss/5";
+
+        /****
+         * notas
+         */
+        var a = "http://www.estadiodeportivo.com/elementosInt/rss/66";
+//    http://www.estadiodeportivo.com/servicios/rss/rss.jsp
+        //fichajes
+        //http://www.estadiodeportivo.com/elementosInt/rss/68
+        //http://www.estadiodeportivo.com/elementosInt/rss/5
+        var xhr = createCORSRequest("GET", "https://api.rss2json.com/v1/api.json?rss_url=" + origin);
+        if (!xhr) {
+            throw new Error('CORS not supported');
+        } else {
+            xhr.send();
+        }
+        xhr.onreadystatechange = function () {
+            var algo = "MEnda";
+
+
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var responseText = xhr.responseText;
+                var result = JSON.parse(responseText);
+                console.log("resultado",result);
+                $.ajax({
+                    type: "GET",
+                    url:"http://localhost:8080/test",
+                    contentType: "application/x-www-form-urlencoded",
+                    data: {
+                        //format: 'json',
+                        name: result
+                    },
+                    success: function (response) {
+                        console.log(response.getText);
+                    },
+                    failure: function (response) {
+                        console.log("emalll");
+                    }
+
+                });
+
+               /* var container = document.getElementById("feed"), entry = result.items, date;
+                /!**
+                 * me queda meterme en lo de las imagenes, de momento estan en el content
+                 *!/
+
+                /!* var resu =  saber(entry[0].content);*!/
+
+                for (var i = 0; i < entry.length; i++) {
+                    dv = document.createElement("div");
+                    date = new Date(entry[i].pubDate);
+                    dv.innerHTML = '<a href="' + entry[i].link + '" target="_blank">' + entry[i].title + '</a><br/>' + date.toDateString().substr(4) + '<br/><div class="article">' + entry[i].content.substring(0, 600) + '...</div>';
+                    dv.innerHTML += '<hr/>';
+                    container.appendChild(dv);
+                }*/
+            }
+        }
+    })();
+    function createCORSRequest(method, url) {
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr) {
+            xhr.open(method, url, true);
+        } else if (typeof XDomainRequest != "undefined") {
+            xhr = new XDomainRequest();
+            xhr.open(method, url);
+        } else {
+            xhr = null;
+        }
+        return xhr;
+    };
+    /*
+    function saber(algo) {
+     var n = algo.search("<img");
+     var final =algo.substring(n);
+     var buscfinal = final.search(">");
+     var a = final.substring(n,buscfinal);
+     var ver = final.substring(buscfinal);
+     var ver2 = final.substring(0,buscfinal+1);
+
+
+
+     console.log('ver2',ver2);
+     console.log('buscafin',buscfinal);
+     console.log('ver',ver);
+     console.log('algo', a);
+     console.log('final', final);
+     return ver2;
+     }
+     */
+
+</script>
+
+</body>
+</html>

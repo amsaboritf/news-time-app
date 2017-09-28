@@ -21,7 +21,7 @@ public class ConnectHttps {
 
     public JSONObject newsInJson() throws NoSuchAlgorithmException, KeyManagementException, IOException, JSONException {
 
-        TrustManager[] trustAllCerts = new TrustManager[] {
+        TrustManager[] trustAllCerts = new TrustManager[]{
                 new X509TrustManager() {
 
 
@@ -60,11 +60,19 @@ public class ConnectHttps {
 
         String a = "http://localhost:8080/greeting";
         String origin = "http://www.estadiodeportivo.com/elementosInt/rss/5";
-
-        URL url = new URL("https://api.rss2json.com/v1/api.json?rss_url=" + origin);
+        String champion = "http://www.futbolred.com/feeds/champions-league";
+        // http://www.liderendeportes.com/cmspages/rss/lider/loultimo.aspx
+        //http://www.liderendeportes.com/cmspages/rss/lider/futbol.aspx
+        //http://estaticos.marca.com/rss/futbol/champions-league.xml
+        //http://estaticos.marca.com/rss/futbol/primera-division.xml
+//http://www.futbolred.com/feeds/liga-bbva
+        //http://www.futbolred.com/feeds/champions-league
+        //http://www.futbolred.com/rss
+        //http://www.marca.com/deporte/rss/
+        URL url = new URL("https://api.rss2json.com/v1/api.json?rss_url=" + champion);
         URL urls = new URL(a);
 
-    /*    ProxySelector.setDefault(new ProxySelector() {
+     /*   ProxySelector.setDefault(new ProxySelector() {
 
             @Override
             public List<Proxy> select(URI uri) {
@@ -83,7 +91,7 @@ public class ConnectHttps {
 
         URLConnection con = url.openConnection();
         //con.setRequestMethod("GET");
-        con.setRequestProperty("RequestMethod","GET");
+        con.setRequestProperty("RequestMethod", "GET");
         JSONObject jsonObject = readJsonFromUrl(url);
         return jsonObject;
     }

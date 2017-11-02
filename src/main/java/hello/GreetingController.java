@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.json.Json;
 import javax.net.ssl.*;
 
 @RestController
@@ -31,7 +32,7 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
     List<News> noticias;
 
-    @RequestMapping("/greeting")
+    @RequestMapping(value = "/greeting")
     public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new Greeting(counter.incrementAndGet(),
                 String.format(template, name));
@@ -137,13 +138,15 @@ public class GreetingController {
     }
 
     @RequestMapping("/allSport")
-    public JSONObject listarAllt() {
+    public JSONArray listarAllt() {
+
         ConnectHttps https = new ConnectHttps();
         try {
             JSONObject jsonObject = https.newsInJson();
             Object items = jsonObject.get("items");
             JSONArray d = jsonObject.getJSONArray("items");
-            return jsonObject;
+
+            return d;
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();

@@ -72,7 +72,7 @@ public class ConnectHttps {
         URL url = new URL("https://api.rss2json.com/v1/api.json?rss_url=" + champion);
         URL urls = new URL(a);
 
-     /*   ProxySelector.setDefault(new ProxySelector() {
+      /*  ProxySelector.setDefault(new ProxySelector() {
 
             @Override
             public List<Proxy> select(URI uri) {
